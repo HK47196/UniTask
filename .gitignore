@@ -10,9 +10,9 @@
 */publish
 $tf
 TestResults
-!*.sln
-!*.csproj
-!*/*.csproj
+*.sln
+*.csproj
+*/*.csproj
 [Ll]ibrary/
 [Tt]emp/
 [Oo]bj/
