@@ -167,10 +167,10 @@ namespace UniRx.AsyncTests
         {
             bool t = true;
 
-            UniTask.DelayFrame(10, PlayerLoopTiming.PostLateUpdate).ContinueWith(_ => t = false).Forget();
+            UniTask.DelayFrame(10, PlayerLoopTiming.EarlyUpdate).ContinueWith(_ => t = false).Forget();
 
             var startFrame = Time.frameCount;
-            await UniTask.WaitWhile(() => t, PlayerLoopTiming.EarlyUpdate);
+            await UniTask.WaitWhile(() => t, PlayerLoopTiming.PostLateUpdate);
 
             var diff = Time.frameCount - startFrame;
             diff.Should().Be(11);
@@ -181,10 +181,10 @@ namespace UniRx.AsyncTests
         {
             var v = new MyMyClass { MyProperty = 99 };
 
-            UniTask.DelayFrame(10, PlayerLoopTiming.PostLateUpdate).ContinueWith(_ => v.MyProperty = 1000).Forget();
+            UniTask.DelayFrame(10, PlayerLoopTiming.EarlyUpdate).ContinueWith(_ => v.MyProperty = 1000).Forget();
 
             var startFrame = Time.frameCount;
-            await UniTask.WaitUntilValueChanged(v, x => x.MyProperty, PlayerLoopTiming.EarlyUpdate);
+            await UniTask.WaitUntilValueChanged(v, x => x.MyProperty, PlayerLoopTiming.PostLateUpdate);
 
             var diff = Time.frameCount - startFrame;
             diff.Should().Be(11);
